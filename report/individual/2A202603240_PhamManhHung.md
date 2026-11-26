@@ -2,7 +2,7 @@
 
 ## 1. Kết luận trước
 - **Thông tin bài làm:** Học viên Phạm Mạnh Hùng, MSSV: `2A202603240`. Task CVAT cá nhân: `D13-2A202603240`. Bộ 10 frame được giao: `s01f07`, `s01f49`, `s02f29`, `s02f54`, `s03f08`, `s03f40`, `s04f25`, `s04f50`, `s05f28`, `s05f44`.
-- **Môi trường thực hành:** Hệ điều hành Windows 11, trình duyệt Microsoft Edge, CVAT Server v2.74.1, UI v2.74.1. MSSV bạn ngồi cạnh đổi kiểm: `2A202603241`.
+- **Môi trường thực hành:** Hệ điều hành Windows 11, trình duyệt Microsoft Edge, CVAT Server v2.74.1, UI v2.74.1. MSSV bạn ngồi cạnh đổi kiểm: `2A202603040`.
 - **Đánh giá tổng quan:** Toàn bộ 10 frame đã hoàn thành với tổng số **94 cuboid**, vượt mốc khuyến nghị (60–70 hộp) và mốc tối thiểu (53 hộp). Frame có ít cuboid nhất là `s03f40` (5 cuboid) do đoạn đường vắng và mật độ phương tiện thưa; frame nhiều nhất là `s04f25` (17 cuboid) tại khu vực giao lộ đông đúc. Sau khi tinh chỉnh các hộp, phiếu tự kiểm `selfcheck` đạt tuyệt đối **0/94 cuboid có cảnh báo** (0% lỗi cảnh báo). Bản thân tự tin nhất ở việc căn chỉnh góc hướng (`yaw_deg` bám sát trục dọc thân xe và chỉ đúng đầu xe) cùng độ cao đáy hộp chạm sát mặt đường (`z_bottom ≈ -1.7 m`); phần còn thách thức nhất là ước lượng kích thước các xe ở khoảng cách xa (> 45 m) do điểm quét thưa.
 - **Cách dùng CVAT:**
   1. *Đổi góc nhìn:* Kéo chuột trái xoay phối cảnh 3D, chuột phải để dời tâm nhìn, con lăn phóng to/thu nhỏ; nháy đúp chuột vào khoảng trống để đưa góc nhìn về mặc định.
@@ -92,7 +92,7 @@ Mật độ theo khoảng cách (4 cuboid ở các `dist_m` khác nhau):
 - **Quy luật mật độ điểm:** Khi khoảng cách tăng lên gấp đôi thì số điểm LiDAR phản xạ từ vật thể giảm đi khoảng 3 đến 4 lần, tuân theo quy luật suy giảm nghịch đảo bình phương khoảng cách ($1/r^2$). Số liệu thực nghiệm trên xe con bám rất sát đường cong lý thuyết trong bài giảng: ở cự ly gần (< 10 m) đạt > 3000 điểm, giảm xuống ~400 điểm ở ~19 m, ~220 điểm ở ~30 m và chỉ còn 65 điểm ở cự ly ~48 m.
 - **Tự kiểm và điều chỉnh:**
   - *Các cuboid đã sửa:* Sau lần chạy `sync` đầu tiên, hệ thống ghi nhận 3 cảnh báo kích thước ở `s01f07 #7` (chiều cao), `s01f07 #13` (chiều cao ở xa) và `s05f44 #14` (chiều rộng). Tôi đã mở lại CVAT và tinh chỉnh: hạ chiều cao và nâng đáy xe số 7 chạm mặt đường (height giảm còn 2.27 m, z_bottom = -1.81 m), tăng chiều cao xe số 13 lên 1.20 m, và thu hẹp bề rộng xe số 14 về 2.20 m ôm sát thân xe; đồng thời chỉnh đáy hộp `s03f40 #5` chạm đường. Sau khi Save và chạy lại `sync`, toàn bộ 94/94 cuboid đều đạt chuẩn với 0 cảnh báo.
-- **Đổi kiểm chéo:** Đã đổi kiểm chéo số liệu với bạn ngồi cạnh (MSSV: `2A202603241`), đối chiếu hai giá trị `dist_m = 3.60 m` và `z_bottom = -1.77 m` của cuboid `s01f07 #1`, các số liệu hoàn toàn trùng khớp giữa bảng A và giao diện hiển thị CVAT.
+- **Đổi kiểm chéo:** Đã đổi kiểm chéo số liệu với bạn ngồi cạnh có MSSV: `2A202603040`. Tôi đã đối chiếu trực tiếp trên màn hình của bạn ấy dòng cuboid `s01f00 #1` (Car): hai con số được kiểm tra là khoảng cách `dist_m = 3.34 m` và cao độ đáy `z_bottom = -1.845 m` (tính từ z = -1.045 m, h = 1.600 m: $z_{\text{đáy}} = z - h/2 = -1.045 - 0.800 = -1.845\text{ m}$), kết quả hoàn toàn trùng khớp giữa báo cáo và Bảng A trên máy bạn. Ngược lại, bạn `2A202603040` cũng đã đối chiếu hai giá trị `dist_m = 3.60 m` và `z_bottom = -1.77 m` của cuboid `s01f07 #1` trên máy tôi, các con số đều chuẩn xác.
 
 ## 6. Ý nghĩa của nhãn, cách dùng AI và điều còn chưa chắc
 - **(a) Ý nghĩa nhãn 3D đối với mô hình học máy:**
